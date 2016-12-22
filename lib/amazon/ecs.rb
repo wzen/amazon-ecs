@@ -135,7 +135,10 @@ module Amazon
 
       request_url = prepare_url(opts)
       log("Request URL: #{request_url}")
-
+      
+      # 「You are submitting requests too quickly. Please retry your requests at a slower rate.」エラー回避のためwaitする
+      sleep(0.5)
+      
       res = Net::HTTP.get_response(URI::parse(request_url))
       log("Response:\n#{res.body}\n\n")
 
