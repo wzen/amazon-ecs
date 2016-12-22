@@ -134,13 +134,13 @@ module Amazon
       opts[:timestamp] = Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ")
 
       request_url = prepare_url(opts)
-      log("Request URL: #{request_url}")
+      Rails.logger.debug("Request URL: #{request_url}")
       
       # 「You are submitting requests too quickly. Please retry your requests at a slower rate.」エラー回避のためwaitする
       sleep(0.5)
       
       res = Net::HTTP.get_response(URI::parse(request_url))
-      log("Response:\n#{res.body}\n\n")
+      Rails.logger.debug("Response:\n#{res.body}\n\n")
 
       ecs_res = Response.new(res.body)
       unless res.kind_of? Net::HTTPSuccess
